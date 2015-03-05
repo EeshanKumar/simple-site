@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var port = process.env.PORT || 3000;
+app.use(express.static(__dirname + "/app/"));
 
 var stringArray = [
   "Har Har Har",
@@ -30,11 +31,11 @@ var jokes = [
 
 app.get("/joke", function(req, res) {
 	var myJoke = randomIndexValue(jokes);
-    res.json(myJoke.setup + "</br>" + myJoke.punchline);
+    res.json(myJoke);
 });
 
 app.get("/", function(req, res) {
-  res.send("hello, universe");
+  res.sendFile("index.html");
 });
 
 app.listen(port, function() {

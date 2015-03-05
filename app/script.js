@@ -12,7 +12,19 @@ function randomIndexValue(array) {
 }
 
 $("button").on("click", function() {
-  $("#display").text(randomIndexValue(stringArray));
+	var url = $(this).attr("id");
+
+	$.get("/" + url, function(response) {
+		var resText;
+
+		if (typeof response === "object") {
+			resText = response.setup + ": " + response.punchline;
+		}
+		else {
+			resText = response;
+		}
+	  	$("#ajax-" + url).text(resText);
+  });
 });
 
 function Person(name) {
