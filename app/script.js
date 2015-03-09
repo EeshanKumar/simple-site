@@ -27,9 +27,16 @@ $("button").on("click", function() {
   });
 });
 
-function Person(name) {
-	this.name = name;
-}
+$(document).ready(function() {
+	//This calls the jquery method get and puts in two arguments. The first is
+	//the URL where the request was sent and the second is an anonymous function
+	//that has an argument of the object or string sent to the url (first argument)
+	$.get( "/person", function( data ) {
+	  //This takes the data object and and puts it as the content of the #person element
+	  $( "#person" ).text("FirstName: " + data.firstName + "  LastName: " + data.lastName);
+	});
+});
+
 
 var array = [ new Person("Bill"), new Person("Tina"), new Person("Peter") ];
 $.each(array, function() {

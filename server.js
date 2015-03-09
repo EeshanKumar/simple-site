@@ -34,6 +34,15 @@ app.get("/joke", function(req, res) {
     res.json(myJoke);
 });
 
+//Creates endpoint at /person and setups the 
+//anonymous function that is called at that endpoint
+app.get("/person", function(req, res) {
+  //Creates an object
+  var person = {firstName: "John", lastName: "Smith"};
+  //Returns the object via the json method on the res (response) argument
+  res.json(person);
+});
+
 app.get("/", function(req, res) {
   res.sendFile("index.html");
 });
