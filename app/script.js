@@ -19,11 +19,10 @@ $("button").on("click", function() {
 
 		if (typeof response === "object") {
 			resText = response.setup + ": " + response.punchline;
-		}
-		else {
+		} else {
 			resText = response;
-		}
-	  	$("#ajax-" + url).text(resText);
+	  }
+	  $("#ajax-" + url).text(resText);
   });
 });
 
@@ -37,8 +36,16 @@ $(document).ready(function() {
 	});
 });
 
+$("#piglatin").on("submit", function(e) {
+	e.preventDefault();
+	var firstname = $("input[name=firstname]").val();
+	var lastname = $("input[name=lastname]").val();
+	var name = { firstname: firstname, lastname: lastname };
 
-var array = [ new Person("Bill"), new Person("Tina"), new Person("Peter") ];
-$.each(array, function() {
-	console.log("Hello", this.name);
+	console.log(name.firstname);
+
+	$.post("piglatin", name, function(response) {
+		var piglatinified = response.firstname + " " + response.lastname;
+		$("#piglatinified").text(piglatinified);
+	});
 });

@@ -22,10 +22,10 @@ app.get("/song", function(req, res) {
 
 var jokes = [
   { setup: "What's the difference between a guitar and a fish?",
-    pnchline: "You can't tuna fish" },
-  { setup: "What do you get when you cross a cow and a duck?", 
+    punchline: "You can't tuna fish" },
+  { setup: "What do you get when you cross a cow and a duck?",
     punchline: "Milk and quackers." },
-  { setup: "How many tickles does it take to make an octopus laugh", 
+  { setup: "How many tickles does it take to make an octopus laugh",
     punchline: "Ten tickles" }
 ];
 
@@ -34,11 +34,11 @@ app.get("/joke", function(req, res) {
     res.json(myJoke);
 });
 
-//Creates endpoint at /person and setups the 
+//Creates endpoint at /person and setups the
 //anonymous function that is called at that endpoint
 app.get("/person", function(req, res) {
   //Creates an object
-  var person = {firstName: "John", lastName: "Smith"};
+  var person = { firstName: "John", lastName: "Smith" };
   //Returns the object via the json method on the res (response) argument
   res.json(person);
 });
