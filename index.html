@@ -1,0 +1,37 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <a href="http://www.eeshankumar.com" target="_blank">Ma site!</a><br/>
+
+    <button id="song">Click me right meow!</button>
+    <p id="ajax-song"></p>
+
+    <button id="joke">Click for a funny</button>
+    <p id="ajax-joke"></p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("button").on("click", function() {
+          var url = $(this).attr("id");
+
+          $.get("/" + url, function(response) {
+            var resText;
+            response = JSON.parse(response);
+
+            if (typeof response === "object") {
+              resText = response.setup + " " + response.punchline;
+            } else {
+              resText = response;
+            }
+            $("#ajax-" + url).text(resText);
+          });
+        });
+      });
+    </script>
+
+  </body>
+
+</html>
