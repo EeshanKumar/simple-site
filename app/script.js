@@ -42,8 +42,6 @@ $("#piglatin").on("submit", function(e) {
 	var lastname = $("input[name=lastname]").val();
 	var name = { firstname: firstname, lastname: lastname };
 
-	console.log(name.firstname);
-
 	$.post("piglatin", name, function(response) {
 		var piglatinified = response.firstname + " " + response.lastname;
 		$("#piglatinified").text(piglatinified);

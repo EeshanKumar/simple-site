@@ -1,6 +1,13 @@
 var express = require("express");
 var app = express();
+var bodyparser = require("body-parser");
 var port = process.env.PORT || 3000;
+
+var piglatinify = require("./lib/piglatinify.js");
+
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
+
 app.use(express.static(__dirname + "/app/"));
 
 var stringArray = [
@@ -45,6 +52,13 @@ app.get("/person", function(req, res) {
 
 app.get("/", function(req, res) {
   res.sendFile("index.html");
+});
+
+app.post("/piglatin", function(req, res) {
+  var firstname = piglatinify(req.body.firstname);
+  var lastname = piglatinify(req.body.lastname);
+  var piglatined = { firstname: firstname, lastname: lastname };
+  res.json(piglatined);
 });
 
 app.listen(port, function() {
