@@ -29,6 +29,23 @@ $(document).ready(function() {
 	  });
 	});
 
+	//On makePizza form submit, do something
+	$("#makePizza").on("submit", function(e) {
+		e.preventDefault();
+		var crust = $("input[name=crust]").val();
+		var cheese = $("input[name=cheese]").val();
+		var toppings = $("input[name=toppings]").val();
+		var yourPizza = { crust: crust, cheese: cheese, toppings: toppings };
+
+		$.post("makePizza", yourPizza, function(response) {
+			$("#yourPizza").text("You get a " + response.pizzaString);
+			$("#hubot").text("Hubot! Image me " + response.pizzaString);
+			$("#pizzaImg").attr("src", response.img);
+			$("#pizzaImg").width(200);
+			$("#pizzaImg").height(200);
+		});
+	});
+
 	//On piglatin form submit, do something
 	$("#piglatin").on("submit", function(e) {
 		e.preventDefault();

@@ -7,6 +7,7 @@ var piglatinify = require("./lib/piglatinify.js");
 var songMe = require("./lib/songMe.js");
 var jokeMe = require("./lib/jokeMe.js");
 var pizzaMe = require("./lib/pizzaMe.js");
+var makePizza = require("./lib/makePizza.js");
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -30,6 +31,18 @@ app.get("/joke", function(req, res) {
 app.get("/pizza", function(req, res) {
   var myPizza = pizzaMe();
   res.json(myPizza);
+});
+
+app.post("/makePizza", function(req, res) {
+  var imgSrc;
+  var pizzaString = makePizza.convertToPizzaString(req.body.crust,
+    req.body.cheese, req.body.toppings);
+
+  //Get pizza image from google
+  imgSrc = makePizza.search(pizzaString, res, function(res, response) {
+    //Return your pizza via json
+    res.json(response);
+  });
 });
 
 app.post("/piglatin", function(req, res) {
