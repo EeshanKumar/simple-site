@@ -1,40 +1,55 @@
 var express = require("express");
 var app = express();
+var bodyparser = require("body-parser");
 var port = process.env.PORT || 3000;
 
-var stringArray = [
-  "Har Har Har",
-  "Wocka Flocka Docka",
-  "Ting Tang Walla Walla Bing Bang",
-  "Shobedo Op",
-  "Check, check me out",
-  "Hip Hop And You Don\'t Stop"
-];
+var piglatinify = require("./lib/piglatinify.js");
+var songMe = require("./lib/songMe.js");
+var jokeMe = require("./lib/jokeMe.js");
+var pizzaMe = require("./lib/pizzaMe.js");
+var makePizza = require("./lib/makePizza.js");
 
-function randomIndexValue(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 
-app.get("/song", function(req, res) {
-  res.send(randomIndexValue(stringArray));
-});
-
-var jokes = [
-  { setup: "What's the difference between a guitar and a fish?",
-    pnchline: "You can't tuna fish" },
-  { setup: "What do you get when you cross a cow and a duck?", 
-    punchline: "Milk and quackers." },
-  { setup: "How many tickles does it take to make an octopus laugh", 
-    punchline: "Ten tickles" }
-];
-
-app.get("/joke", function(req, res) {
-	var myJoke = randomIndexValue(jokes);
-    res.json(myJoke.setup + "</br>" + myJoke.punchline);
-});
+app.use(express.static(__dirname + "/app/"));
 
 app.get("/", function(req, res) {
-  res.send("hello, universe");
+  res.sendFile("index.html");
+});
+
+app.get("/song", function(req, res) {
+  var mySong = songMe();
+  res.send(mySong);
+});
+
+app.get("/joke", function(req, res) {
+	var myJoke = jokeMe();
+  res.json(myJoke);
+});
+
+app.get("/pizza", function(req, res) {
+  var myPizza = pizzaMe();
+  res.json(myPizza);
+});
+
+app.post("/makePizza", function(req, res) {
+  var imgSrc;
+  var pizzaString = makePizza.convertToPizzaString(req.body.crust,
+    req.body.cheese, req.body.toppings);
+
+  //Get pizza image from google
+  imgSrc = makePizza.search(pizzaString, res, function(res, response) {
+    //Return your pizza via json
+    res.json(response);
+  });
+});
+
+app.post("/piglatin", function(req, res) {
+  var firstname = piglatinify(req.body.firstname);
+  var lastname = piglatinify(req.body.lastname);
+  var piglatined = { firstname: firstname, lastname: lastname };
+  res.json(piglatined);
 });
 
 app.listen(port, function() {
